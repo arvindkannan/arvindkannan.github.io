@@ -95,7 +95,7 @@ a:focus-visible, button:focus-visible { outline: none; box-shadow: var(--ring); 
 }
 .skip-link:focus { left: 0; }
 
-.container { max-width: var(--container); margin: 0 auto; padding: 0 clamp(16px, 4vw, 28px); }
+.container { max-width: var(--container); margin: 0 auto; padding: 0 clamp(20px, 5vw, 28px); }
 .section { padding: clamp(56px, 8vw, 110px) 0; }
 .section-head { max-width: 760px; margin: 0 0 32px; }
 .section-head h2 { font-size: var(--step-3); margin: 6px 0 8px; letter-spacing: -0.02em; }
@@ -179,7 +179,7 @@ a:focus-visible, button:focus-visible { outline: none; box-shadow: var(--ring); 
 .mobile-nav {
   display: none;
   flex-direction: column; gap: 4px;
-  padding: 12px clamp(16px, 4vw, 28px) 18px;
+  padding: 12px clamp(20px, 5vw, 28px) 18px;
   border-top: 1px solid var(--border);
   background: var(--bg-elev);
 }
@@ -360,6 +360,231 @@ a:focus-visible, button:focus-visible { outline: none; box-shadow: var(--ring); 
 }
 .achievements li { line-height: 1.55; }
 .achievements li::marker { color: var(--brand-1); }
+
+/* ============================================================
+   Experience — award-style vertical timeline (.xp-*)
+   ============================================================ */
+.xp-timeline {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; gap: clamp(20px, 3.5vw, 34px);
+}
+.xp {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: clamp(12px, 2.5vw, 22px);
+  position: relative;
+}
+
+/* Spine + node */
+.xp-rail { position: relative; }
+.xp-rail::before {
+  content: ""; position: absolute; left: 14px; top: 46px;
+  bottom: calc(-1 * clamp(20px, 3.5vw, 34px));
+  width: 2px;
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--brand-1) 55%, transparent),
+    color-mix(in oklab, var(--brand-3) 30%, transparent)
+  );
+}
+.xp:last-child .xp-rail::before {
+  bottom: auto; height: 40px;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--brand-1) 55%, transparent), transparent);
+}
+.xp-dot {
+  position: absolute; left: 7px; top: 30px;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--bg);
+  border: 3px solid var(--brand-1);
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--brand-1) 16%, transparent);
+}
+.xp--now .xp-dot {
+  border-color: #22c55e;
+  box-shadow: 0 0 0 4px color-mix(in oklab, #22c55e 18%, transparent);
+  animation: xp-ping 2.6s ease-out infinite;
+}
+@keyframes xp-ping {
+  0% { box-shadow: 0 0 0 0 color-mix(in oklab, #22c55e 45%, transparent); }
+  70% { box-shadow: 0 0 0 10px color-mix(in oklab, #22c55e 0%, transparent); }
+  100% { box-shadow: 0 0 0 0 color-mix(in oklab, #22c55e 0%, transparent); }
+}
+
+/* Card */
+.xp-card {
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+  position: relative; overflow: clip;
+}
+.xp-card::before {
+  content: ""; position: absolute; inset: 0 auto 0 0; width: 3px;
+  background: linear-gradient(180deg, var(--brand-1), var(--brand-3));
+  opacity: 0; transition: opacity .25s ease;
+}
+.xp-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-strong);
+}
+.xp-card:hover::before { opacity: 1; }
+
+.xp-top { display: flex; gap: 14px; align-items: flex-start; }
+.xp-id { min-width: 0; }
+.xp-logo {
+  flex: none;
+  width: 52px; height: 52px; border-radius: 14px;
+  display: grid; place-items: center;
+  font-weight: 800; font-size: 1.05rem; color: #fff; letter-spacing: 0.01em;
+  background: linear-gradient(135deg, var(--brand-1), var(--brand-3));
+  box-shadow: var(--shadow-sm);
+}
+.xp-logo--alt { background: linear-gradient(135deg, var(--brand-2), var(--brand-1)); }
+
+.xp-name-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.xp-name-row h3 { margin: 0; font-size: var(--step-2); letter-spacing: -0.01em; }
+.xp-position { margin: 6px 0 2px; color: var(--text); font-weight: 600; font-size: 0.95rem; }
+.xp-meta { margin: 0; color: var(--text-subtle); font-size: 0.82rem; font-family: var(--font-mono); }
+
+.xp-now {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  color: #16a34a;
+  padding: 4px 10px; border-radius: var(--radius-pill);
+  background: color-mix(in oklab, #22c55e 14%, transparent);
+  border: 1px solid color-mix(in oklab, #22c55e 32%, transparent);
+}
+.xp-pulse {
+  width: 7px; height: 7px; border-radius: 50%; background: #22c55e;
+  animation: xp-ping 2.4s ease-out infinite;
+}
+.xp-span {
+  font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.06em;
+  color: var(--text-subtle);
+  padding: 4px 10px; border-radius: var(--radius-pill);
+  background: var(--surface); border: 1px solid var(--border);
+}
+
+.xp-summary { color: var(--text-muted); margin: 14px 0 0; }
+
+.xp-stack {
+  list-style: none; padding: 0; margin: 14px 0 0;
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.xp-stack li {
+  font-size: 0.76rem; font-weight: 500; color: var(--text-muted);
+  padding: 5px 11px; border-radius: var(--radius-pill);
+  background: var(--surface); border: 1px solid var(--border);
+  transition: color .2s ease, border-color .2s ease;
+}
+.xp-stack li:hover { color: var(--text); border-color: var(--border-strong); }
+
+.xp-impact {
+  list-style: none; padding: 16px 0 0; margin: 16px 0 0;
+  border-top: 1px solid var(--border);
+  display: flex; flex-wrap: wrap; gap: clamp(16px, 4vw, 34px);
+}
+.xp-impact li { display: flex; flex-direction: column; gap: 2px; }
+.xp-impact strong {
+  font-size: var(--step-1); font-weight: 800; letter-spacing: -0.01em;
+  background: linear-gradient(120deg, var(--brand-1), var(--brand-3));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.xp-impact span { font-size: 0.78rem; color: var(--text-subtle); }
+
+/* Role progression inside a single company */
+.xp-roles {
+  list-style: none; margin: 18px 0 0; padding: 0;
+  display: grid; gap: 12px;
+}
+.xp-role-item {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 16px;
+  background: var(--surface);
+  transition: border-color .2s ease, background .2s ease;
+}
+.xp-role-item:hover { border-color: var(--border-strong); }
+.xp-role-head {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 8px 14px;
+}
+.xp-grade {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-weight: 700; font-size: 1rem; color: var(--text);
+}
+.xp-grade::before {
+  content: ""; width: 9px; height: 9px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--brand-1), var(--brand-3));
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--brand-1) 14%, transparent);
+}
+.xp-years {
+  font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.06em;
+  color: var(--text-subtle);
+  padding: 3px 9px; border-radius: var(--radius-pill);
+  background: var(--bg-elev); border: 1px solid var(--border);
+  white-space: nowrap;
+}
+.xp-role-sum { color: var(--text-subtle); font-size: 0.86rem; margin: 6px 0 0; }
+.xp-role-item .work-detail { margin-top: 12px; }
+
+@media (max-width: 560px) {
+  .xp { grid-template-columns: 18px minmax(0, 1fr); gap: 10px; }
+  .xp-rail::before { left: 8px; }
+  .xp-dot { left: 1px; }
+  .xp-logo { width: 44px; height: 44px; font-size: 0.95rem; }
+}
+
+/* ============================================================
+   Education — modern card (.edu-*)
+   ============================================================ */
+.edu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+  gap: clamp(14px, 2vw, 22px);
+}
+.edu-card {
+  display: flex; gap: clamp(14px, 2.5vw, 22px); align-items: flex-start;
+  position: relative; overflow: clip;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.edu-card::after {
+  content: ""; position: absolute; right: -40px; top: -40px;
+  width: 160px; height: 160px; border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in oklab, var(--brand-1) 16%, transparent), transparent 70%);
+  pointer-events: none;
+}
+.edu-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-strong);
+}
+.edu-cap {
+  flex: none;
+  width: 56px; height: 56px; border-radius: 16px;
+  display: grid; place-items: center; color: #fff;
+  background: linear-gradient(135deg, var(--brand-1), var(--brand-3));
+  box-shadow: var(--shadow-sm);
+}
+.edu-cap svg { width: 28px; height: 28px; }
+.edu-body { min-width: 0; }
+.edu-head { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.edu-head h3 { margin: 0; font-size: var(--step-1); letter-spacing: -0.01em; }
+.edu-badge {
+  font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--brand-1);
+  padding: 4px 10px; border-radius: var(--radius-pill);
+  background: color-mix(in oklab, var(--brand-1) 12%, transparent);
+  border: 1px solid color-mix(in oklab, var(--brand-1) 28%, transparent);
+}
+.edu-school { margin: 8px 0 0; color: var(--text); font-weight: 600; font-size: 0.95rem; }
+.edu-desc { margin: 8px 0 0; color: var(--text-muted); }
+.edu-tags {
+  list-style: none; padding: 0; margin: 14px 0 0;
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.edu-tags li {
+  font-size: 0.76rem; font-weight: 500; color: var(--text-muted);
+  padding: 5px 11px; border-radius: var(--radius-pill);
+  background: var(--surface); border: 1px solid var(--border);
+}
 
 /* Skills */
 .skill { display: flex; flex-direction: column; gap: 6px; }
